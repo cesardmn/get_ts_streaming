@@ -54,7 +54,7 @@ function renderVideo() {
     echo "Rendering frames to ${name_video}.mp4 ..." &&
     echo '' > mylist.txt &&
     for f in ./saved_files/.tmp/*.ts; do echo "file '$f'" >> mylist.txt; done &&
-    ffmpeg -loglevel quiet -f concat -safe 0 -i mylist.txt -c copy ./saved_files/${name_video}.mp4 &&
+    ffmpeg -loglevel quiet -f concat -safe 0 -i mylist.txt -c copy ./saved_files/"${name_video}".mp4 -y &&
     echo '' > mylist.txt &&
     rm -rf ./saved_files/.tmp/*ts
     rm mylist.txt &&
