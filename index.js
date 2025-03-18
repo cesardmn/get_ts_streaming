@@ -5,24 +5,17 @@ const shell = require('shelljs');
 const readlineSync = require('readline-sync');
 
 const baseUrl = readlineSync.question('URL: ')
-
 const name_video = readlineSync.question('Video name: ')
 
 async function main() {
-
   let status = 200
-  let i = 0
-
-  while (status == 200) {
+  let i = -1
+  while (status === 200) {
     i += 1
-
-    let url = baseUrl.replace(/seg-\d+-/, `seg-${i}-`)
+    let url = baseUrl.replace(/video\d+\.ts$/, `video${i}.ts`)
     let fileName = `${('0000' + i).slice(-4)}.ts`
-
     status = await getFrame(url, fileName)
-
   }
-
   renderVideo()
 }
 
@@ -38,8 +31,7 @@ async function getFrame(url, fileName) {
     const writer = Fs.createWriteStream(path)
     response.data.pipe(writer)
 
-    console.log(`[get frame] ===> ${fileName}`)
-
+    process.stdout.write(`[get frame]: ${fileName}\r`);
     return 200
 
   } catch (error) {
@@ -49,7 +41,7 @@ async function getFrame(url, fileName) {
 
 
 function renderVideo() {
-
+  process.stdout.write('\n');
   const cmd = `
     echo "Rendering frames to ${name_video}.mp4 ..." &&
     echo '' > mylist.txt &&
@@ -60,9 +52,8 @@ function renderVideo() {
     rm mylist.txt &&
     echo "Saved:  ${Path.resolve(__dirname, 'saved_files', `${name_video}.mp4`)}"
   `
-
   shell.exec(cmd)
-
+  process.exit(0)
 }
 
 main()
