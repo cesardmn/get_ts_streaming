@@ -10,7 +10,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "axios": "^0.20.0",
+    "axios": "^1.8.3",
     "readline-sync": "^1.4.10",
     "shelljs": "^0.8.4"
   }
